@@ -1,0 +1,180 @@
+<!doctype HTML>
+<meta charset="utf-8">
+<title>Earthquake Map</title>
+
+<style>
+body {
+  position: absolute;
+  margin: 10px;
+}
+svg {
+  background-color: #fcfeff;
+}
+h1 {
+    color: #000099;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 30px;
+     background: linear-gradient(to bottom, #ff0000 0%, #ffff00 100%);
+}
+
+  
+path.quake, circle.quake {
+  fill: #11d817;
+  fill-opacity: 0.5;
+}
+ path.quake2, circle.quake2 {
+  fill: yellow;
+  fill-opacity: 1;
+} 
+  path.quake3, circle.quake3 {
+  fill: #e5981d;
+  fill-opacity: 1;
+   
+}
+  path.quake4, circle.quake4 {
+  fill: red;
+  fill-opacity: 1;
+} 
+path.state {
+  fill: none;
+  stroke: #000;
+}
+.legend rect {
+  fill:white;
+  stroke:black;
+  opacity:048;}
+}
+
+
+</style>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.21.0/d3-legend.js"></script>
+
+<body>
+ <H1>Earthquakes in the US </H1> 
+<script>
+
+var width = 1000, height = 700;
+var data = null; // This is a global variable
+var usgs_data; // This is a global variable
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+var projection = d3.geoAlbersUsa();
+var path = d3.geoPath()
+    .projection(projection);
+var layer1 = svg.append("g");
+var layer2 = svg.append("g");
+var layer3 = svg.append("g");
+var layer4 = svg.append("g");  
+var layer5 = svg.append("g");  
+  
+var ordinal = d3.scaleOrdinal()
+  .domain(["0 - 1.0", "1.0 - 2.0", "2.0 - 3.0", "3.0 - 4.0"])
+  .range(["#11d817","yellow","#e5981d","red"]);
+var legend = d3.select("svg").append("svg")
+  .attr("x", 750)
+  .attr("y", 320);
+; 
+  
+legend.append("g")
+  .attr("class", "legendOrdinal")
+  .attr("transform", "translate(20,20)")
+var legendOrdinal = d3.legendColor()
+  .shape("path", d3.symbol().type(d3.symbolCircle).size(150)())
+  .shapePadding(10)
+    .title("Magnitude Values")
+  .scale(ordinal);
+svg.select(".legendOrdinal")
+  .call(legendOrdinal); 
+  
+var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson";
+var base = "https://umbcvis.github.io/classes/class-03/us.json"
+d3.json(base, plotStates);
+function plotStates(error, json) {
+  if (error) console.log(error);
+  
+  // Assign the json to a global so we can manipulate it in the console
+  usgs_data = json.objects.us.geometries.map(function(d) { return topojson.feature(json, d); })
+  //console.log(Object.values(usgs_data))
+  // Plot the States
+  layer1.selectAll("path.state")
+      .data(usgs_data)
+    .enter().append("path")
+      .attr("class", "state")
+      .attr("d", path)
+       
+}
+  
+  
+d3.json(url, plotQuakes);
+function plotQuakes(error, json) {
+  if (error) console.log(error);
+data = json;
+var mag1 = data.features.filter(function(d) { return (+ d.properties.mag <=1.0) });
+var mag2 = data.features.filter(function(d) { return (+ d.properties.mag >1.0) && (+ d.properties.mag <=2.0) });
+var mag3 = data.features.filter(function(d) { return (+ d.properties.mag >2.0) && (+ d.properties.mag <=3.0) });
+var mag4 = data.features.filter(function(d) { return (+ d.properties.mag >3.0) && (+ d.properties.mag <=4.0) });
+var mag5 = data.features.filter(function(d) { return (+ d.properties.mag >4.0) && (+ d.properties.mag <=5.0) });
+var mag1count = mag1.length;
+var mag2count = mag2.length;
+var mag3count = mag3.length;
+var mag4count = mag4.length; 
+console.log(mag1count); 
+  
+svg.append("text")
+      .attr("x", 100)
+      .attr("y", 600)
+      .style("font-size", "15px")
+      .text("Magnitudes 0 - 1.0 : " + mag1count ) 
+svg.append("text")
+      .attr("x", 300)
+      .attr("y", 600)
+      .style("font-size", "15px")      
+      .text("Magnitudes 1.0 - 2.0 : " + mag2count )
+svg.append("text")
+      .attr("x", 500)
+      .attr("y", 600)
+      .style("font-size", "15px")
+      .text("Magnitudes 2.0 - 3.0 : " + mag3count ) 
+svg.append("text")
+      .attr("x", 700)
+      .attr("y", 600)
+      .style("font-size", "15px")
+      .text("Magnitudes 3.0 - 4.0 : " + mag4count )
+  
+
+layer2.selectAll("path.quake")
+      .data(mag1)
+    .enter().append("path")
+      .attr("class", "quake")
+      .attr("d", path)
+layer3.selectAll("path.quake2")
+      .data(mag2)
+    .enter().append("path")
+      .attr("class", "quake2")
+      .attr("d", path)
+layer4.selectAll("path.quake3")
+      .data(mag3)
+    .enter().append("path")
+      .attr("class", "quake3")
+      .attr("d", path)
+layer5.selectAll("path.quake4")
+      .data(mag4)
+    .enter().append("path")
+      .attr("class", "quake4")
+      .attr("d", path)
+} 
+  
+function mousemoved() {
+  info.text(formatLocation(projection.invert(d3.mouse(this)), projection.scale()));
+}
+function formatLocation(p, k) {
+  var format = d3.format("." + Math.floor(Math.log(k) / 2 - 2) + "f");
+  return (p[1] < 0 ? format(-p[1]) + "°S" : format(p[1]) + "°N") + " "
+       + (p[0] < 0 ? format(-p[0]) + "°W" : format(p[0]) + "°E");
+}
+</script>
