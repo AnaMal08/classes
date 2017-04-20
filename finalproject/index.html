@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+#tr {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+}
+
+</style>
+<svg width="960" height="500"></svg>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="//d3js.org/d3-tile.v0.0.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var pi = Math.PI,
+    tau = 2 * pi;
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var projection = d3.geoMercator()
+    .scale((1 << 18) / tau)
+    .translate([width / 2, height / 2])
+    .center([-83.15, 42.43]);
+
+var path = d3.geoPath()
+    .projection(projection);
+
+var us = "https://umbcvis.github.io/classes/class-03/us.json";
+var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+var trail ="https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trailstopo";
+d3.queue()
+		.defer(d3.json, trail)
+    .await(ready);
+
+function ready(error, trail) {
+  if (error) throw error;
+	console.log(trail)
+  
+  var biketrial = topojson.feature(trail, trail.objects.collection).features;
+  console.log(biketrial);
+
+  // Set projection scale & translate to DC
+  var extent = [[0, 0], [width, height]]; // = [[ top, left ], [bottom, right]]
+  projection.fitExtent(extent, biketrial);
+
+  var tiles = d3.tile()
+      .size([width, height])
+      .scale(projection.scale() * tau)
+      .translate(projection([0, 0]))
+      ();
+
+  var layer1 = svg.append("g");
+  var layer2 = svg.append("g");
+
+   layer1.selectAll("image")
+      .data(tiles)
+    .enter().append("image")
+      .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+      .attr("x", function(d) { return (d[0] + tiles.translate[0]) * tiles.scale; })
+      .attr("y", function(d) { return (d[1] + tiles.translate[1]) * tiles.scale; })
+      .attr("width", tiles.scale)
+      .attr("height", tiles.scale);
+  
+  layer2.selectAll(".trail")
+      .data(biketrial)
+    .enter().append("path")
+      .attr("class", "trail")
+      .style("fill", 'crimson')
+      .attr("d", path)
+ 
+}
+
+</script>
 
