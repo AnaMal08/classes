@@ -20,6 +20,12 @@ path {
   bottom: 100px;
   right: 100px;
 }
+.tooltip {
+  position: absolute;
+  visibility: visible;
+  background-color: #aaa;
+  padding: 5px;
+}
 </style>
 <svg></svg>
 <div class='info'></div>
@@ -27,6 +33,9 @@ path {
 <script src="//d3js.org/d3-tile.v0.0.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
 <script>
+var tooltip = d3.select('body').append('div')
+    .attr('class', 'tooltip')
+    .text('Hello, world!')
 var pi = Math.PI,
     tau = 2 * pi;
 var width = Math.max(960, window.innerWidth),
@@ -35,6 +44,11 @@ var width = Math.max(960, window.innerWidth),
 var projection = d3.geoMercator()
     .scale(1 / tau)
     .translate([0, 0]);
+// Define the tooltip for hover-over info windows
+var div = d3.select("body").append("div")   
+  	.attr("class", "tooltip")               
+  	.style("opacity", 0);
+
 var path = d3.geoPath()
     .projection(projection);
 var tile = d3.tile()
@@ -48,21 +62,37 @@ var svg = d3.select("svg")
 var raster = svg.append("g");
 var vector = svg.append("path");
 var bstations = svg.append("g");
+var layer1 = svg.append("g");
 var trail = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trailstopo";
 var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
 d3.queue()
     .defer(d3.json, trail)
     .defer(d3.json, stations)
     .await(ready);
-function ready(error, trail, usgs) {
+function ready(error, trail, stations) {
   if (error) throw error;
   vector
       .datum(topojson.mesh(trail, trail.objects.collection));
-  bstations = bstations.selectAll(".quake")
-      .data(usgs.features)
+  bstations = bstations.selectAll(".station")
+      .data(stations.features)
     .enter().append("path")
-      .attr("class", "quake")
+      .attr("class", "station")
       .style("fill", 'crimson')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .8)
+            .style("stroke", "black");
+          div.html("<font size = 2>" + "<u>" + "Address:" + "</u>" + " " + d.properties.ADDRESS )
+            .style("left", (d3.event.pageX + 10) + "px")
+            .style("top", (d3.event.pageY - 30) + "px");
+        })
+        .on("mouseout", function(d) {
+          div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
+
   // Compute the projected initial center.
   var center = projection([-77.04, 38.91]);
   // Apply a zoom transform equivalent to projection.{scale,translate,center}.
