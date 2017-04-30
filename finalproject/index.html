@@ -7,9 +7,9 @@ body {
 }
 path {
   fill: none;
-  stroke: red;
+  stroke: blue;
   stroke-linejoin: round;
-  stroke-width: 1.5px;
+  stroke-width: 3px;
 }
 .info {
   color: #000;
@@ -48,9 +48,9 @@ var projection = d3.geoMercator()
 var div = d3.select("body").append("div")   
   	.attr("class", "tooltip")               
   	.style("opacity", 0);
-
 var path = d3.geoPath()
-    .projection(projection);
+    .projection(projection)
+  	.pointRadius(4);
 var tile = d3.tile()
     .size([width, height]);
 var zoom = d3.zoom()
@@ -71,29 +71,30 @@ d3.queue()
     .await(ready);
 function ready(error, trail, stations) {
   if (error) throw error;
+  // add trails vector
   vector
       .datum(topojson.mesh(trail, trail.objects.collection));
+  // add bakiestations 
   bstations = bstations.selectAll(".station")
       .data(stations.features)
     .enter().append("path")
       .attr("class", "station")
       .style("fill", 'crimson')
+  		.style("stroke", 'none')
   		      .on("mouseover", function(d) {
           div.transition()
             .duration(200)
             .style("opacity", .8)
-            .style("stroke", "black");
-          div.html("<font size = 2>" + "<u>" + "Address:" + "</u>" + " " + d.properties.ADDRESS )
+          div.html("<font size = 2>" + "<u>" + "Address:" + "</u>" + " " + 			     d.properties.ADDRESS )
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY - 30) + "px");
         })
-        .on("mouseout", function(d) {
-          div.transition()
+        		.on("mouseout", function(d) {
+         				 div.transition()
             .duration(500)
             .style("opacity", 0);
         });
-
-  // Compute the projected initial center.
+  // Compute the projected initial center for DC
   var center = projection([-77.04, 38.91]);
   // Apply a zoom transform equivalent to projection.{scale,translate,center}.
   svg
