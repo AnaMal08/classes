@@ -1,14 +1,17 @@
 {
-	"type": "Feature",
-	"properties": {
-		"OBJECTID": 80,
-		"ADDRESS": "701 E BASIN DR SW",
-		"NAME": "LINCOLN MEMORIAL",
-		"ADDRID": "308233",
-		"IMAGE": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg"
-	},
-	"geometry": {
-		"type": "Point",
-		"coordinates": [-77.05018389318994, 38.88929091200698]
-	}
+	"type": "FeatureCollection",
+	"features": [{
+		"type": "Feature",
+		"properties": {
+			"OBJECTID": 80,
+			"ADDRESS": "701 E BASIN DR SW",
+			"NAME": "LINCOLN MEMORIAL",
+			"ADDRID": "308233",
+			"IMAGE": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg"
+		},
+		"geometry": {
+			"type": "Point",
+			"coordinates": [-77.05018389318994, 38.88929091200698]
+		}
+	}]
 }
