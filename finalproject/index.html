@@ -23,12 +23,13 @@ path {
 .tooltip {
   position: absolute;
   visibility: visible;
-  background-color: #aaa;
-  padding: 5px;
+  background-color: #E9967A;
+  padding: 8px;
 }
 </style>
 <svg></svg>
 <div class='info'></div>
+<img id="img1" src="http://fourbeesdigitown.wikispaces.com/file/view/lawyer-lolcat.jpg/156349309/lawyer-lolcat.jpg" />
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/d3-tile.v0.0.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
@@ -50,7 +51,7 @@ var div = d3.select("body").append("div")
   	.style("opacity", 0);
 var path = d3.geoPath()
     .projection(projection)
-  	.pointRadius(4);
+  	.pointRadius(3);
 var tile = d3.tile()
     .size([width, height]);
 var zoom = d3.zoom()
@@ -60,20 +61,58 @@ var svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height);
 var raster = svg.append("g");
-var vector = svg.append("path");
 var bstations = svg.append("g");
+var trl = svg.append("g");
+var ppp = svg.append("circle")
+    .attr("r",5)
+    .style("fill","yellow")
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 var layer1 = svg.append("g");
-var trail = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trailstopo";
+var layer2 = svg.append("g");
+var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
 var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
+var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/poinfOfIntrest.json";
+var legend = layer2.selectAll('.legend')
+    .data(d3.range(10))
+  .enter().append('g')
+    .attr('class', 'legend')
+    .attr('transform', 'translate(' + [width - 150, height / 3] +')');
+legend.append('circle')
+    .attr('cy', function(d) { return 4 * d * path.pointRadius() ; })
+    .attr('r', path.pointRadius())
+    .attr('fill', color)
+    .attr('stroke', '#aaaaaa')
+legend.append('text')
+    .attr('x', '1em')
+    .attr('y', function(d) { return 4 * d * path.pointRadius(); })
+    .attr('dy', '.3em')
+    .text(function(d) { return d + ' - ' + (d + 1); })
 d3.queue()
-    .defer(d3.json, trail)
+    .defer(d3.json, trails)
     .defer(d3.json, stations)
     .await(ready);
-function ready(error, trail, stations) {
+function ready(error, trails, stations) {
   if (error) throw error;
-  // add trails vector
-  vector
-      .datum(topojson.mesh(trail, trail.objects.collection));
+  // add trails 
+	  trl = trl.selectAll(".trail")
+      .data(trails.features)
+    .enter().append("path")
+      .attr("class", "trail")
+      .style("fill", 'none')
+  		.style("stroke", 'BLUE')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", .8)
+          div.html("<font size = 3>" + "<u>" + "Trail Name:" + "</u>" + " " + d.properties.NAME + "<br>" + "<font size = 3>" + "<u>" + "Length of trail:" + "</u>" + " " + ((d.properties.LENGTH)*0.00018939).toFixed(2) + " " +"miles" )        
+            .style("left", (d3.event.pageX + 10) + "px")
+            .style("top", (d3.event.pageY - 30) + "px");
+        })
+        		.on("mouseout", function(d) {
+         				 div.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
   // add bakiestations 
   bstations = bstations.selectAll(".station")
       .data(stations.features)
@@ -84,8 +123,8 @@ function ready(error, trail, stations) {
   		      .on("mouseover", function(d) {
           div.transition()
             .duration(200)
-            .style("opacity", .8)
-          div.html("<font size = 2>" + "<u>" + "Address:" + "</u>" + " " + 			     d.properties.ADDRESS )
+            .style("opacity", .8) 
+          div.html("<font size = 3>" + "<u>" + "Address:" + "</u>" + " " + 			     d.properties.ADDRESS +"<br>" + "<font size = 3>" + "<u>" + "Number of bikes:" + "</u>" + " " + d.properties.NUMBER_OF_BIKES)          
             .style("left", (d3.event.pageX + 10) + "px")
             .style("top", (d3.event.pageY - 30) + "px");
         })
@@ -94,6 +133,8 @@ function ready(error, trail, stations) {
             .duration(500)
             .style("opacity", 0);
         });
+  // add points of intrest 
+ 
   // Compute the projected initial center for DC
   var center = projection([-77.04, 38.91]);
   // Apply a zoom transform equivalent to projection.{scale,translate,center}.
@@ -115,10 +156,22 @@ function zoomed() {
   projection
       .scale(transform.k / tau)
       .translate([transform.x, transform.y]);
-  vector
+  trl
       .attr("d", path);
   bstations
-      .attr("d", path)
+      .attr("d", path);
+  ppp
+      .attr('cx', projection([-77.05018389318994, 38.88929091200698])[0])
+      .attr('cy', projection([-77.05018389318994, 38.88929091200698])[1])
+  		.style("stroke", 'none')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(2000)
+            .style("opacity", 2) 
+          div.html("<span style='color:red'><h1>Linaolm Memorial</h1><br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg'></ahref></span> <span style='color:blue'></span>")          
+            .style("left", (d3.event.pageX - 34) + "px")
+      			.style("top", (d3.event.pageY - 12) + "px");
+        })
   var image = raster
       .attr("transform", stringify(tiles.scale, tiles.translate))
     .selectAll("image")
