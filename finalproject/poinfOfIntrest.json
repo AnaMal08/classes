@@ -1,7 +1,19 @@
 {
 	"type": "FeatureCollection",
-	"features": [
-	  {
+	"features": [{
+		"type": "Feature",
+		"properties": {
+			"OBJECTID": 141,
+			"ADDRESS": "EAST BASIN DRIVE SW",
+			"NAME": "JEFFERSON MEMORIAL",
+			"ADDRID": "294411",
+			"IMAGE": "https://washington-org.s3.amazonaws.com/s3fs-public/jefferson-at-night_credit-carol-m.-highsmith-lib-of-congress.jpg"
+		},
+		"geometry": {
+			"type": "Point",
+			"coordinates": [-77.03654320042097, 38.881325713574476]
+		}
+	}, {
 		"type": "Feature",
 		"properties": {
 			"OBJECTID": 80,
