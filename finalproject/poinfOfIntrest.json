@@ -1,30 +1,45 @@
 {
 	"type": "FeatureCollection",
 	"features": [{
-		"type": "Feature",
-		"properties": {
-			"OBJECTID": 141,
-			"ADDRESS": "EAST BASIN DRIVE SW",
-			"NAME": "JEFFERSON MEMORIAL",
-			"ADDRID": "294411",
-			"IMAGE": "https://washington-org.s3.amazonaws.com/s3fs-public/jefferson-at-night_credit-carol-m.-highsmith-lib-of-congress.jpg"
+			"type": "Feature",
+			"properties": {
+				"OBJECTID": 141,
+				"ADDRESS": "EAST BASIN DRIVE SW",
+				"NAME": "JEFFERSON MEMORIAL",
+				"ADDRID": "294411",
+				"IMAGE": "https://washington-org.s3.amazonaws.com/s3fs-public/jefferson-at-night_credit-carol-m.-highsmith-lib-of-congress.jpg"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.03654320042097, 38.881325713574476]
+			}
+		}, {
+			"type": "Feature",
+			"properties": {
+				"OBJECTID": 80,
+				"ADDRESS": "701 E BASIN DR SW",
+				"NAME": "LINCOLN MEMORIAL",
+				"ADDRID": "308233",
+				"IMAGE": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.05018389318994, 38.88929091200698]
+			}
 		},
-		"geometry": {
-			"type": "Point",
-			"coordinates": [-77.03654320042097, 38.881325713574476]
+		{
+			"type": "Feature",
+			"properties": {
+				"OBJECTID": 40,
+				"ADDRESS": "GEORGE WASHINGTON MEMORIAL PARKWAY",
+				"NAME": "NAVY – MERCHANT MARINE MEMORIAL",
+				"ADDRID": "294415", 
+			  	"IMAGE": "https://images.fineartamerica.com/images-medium-large-5/1-navy-merchant-marine-memorial-david-hyun.jpg"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.04725090111135, 38.87628230575873]
+			}
 		}
-	}, {
-		"type": "Feature",
-		"properties": {
-			"OBJECTID": 80,
-			"ADDRESS": "701 E BASIN DR SW",
-			"NAME": "LINCOLN MEMORIAL",
-			"ADDRID": "308233",
-			"IMAGE": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg"
-		},
-		"geometry": {
-			"type": "Point",
-			"coordinates": [-77.05018389318994, 38.88929091200698]
-		}
-	}]
+	]
 }
