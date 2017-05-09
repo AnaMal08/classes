@@ -2,23 +2,34 @@
 <meta charset="utf-8">
 <title>Class 10</title>
 <style>
-body {
+h1 { 
+    
+  display: block;
+    font-size: 1em;
+    text-align: LEFT;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+  body {
   margin: 0;
 }
 path {
   fill: none;
-  stroke: blue;
+  stroke: #006400;
   stroke-linejoin: round;
   stroke-width: 3px;
 }
 .info {
   color: #000;
   position: absolute;
-  background-color: rgba(200, 200, 200, .7);
+  background-color: 	#66CDAA;
   visibility: hidden;
   padding: 0.5em;
-  bottom: 100px;
-  right: 100px;
+  bottom: 50px;
+  right: 50px;
 }
 .tooltip {
   position: absolute;
@@ -26,17 +37,19 @@ path {
   background-color: #E9967A;
   padding: 8px;
 }
+img {
+    max-width: 50%;
+    max-height: 50%;
+}
 </style>
 <svg></svg>
 <div class='info'></div>
-<img id="img1" src="http://fourbeesdigitown.wikispaces.com/file/view/lawyer-lolcat.jpg/156349309/lawyer-lolcat.jpg" />
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/d3-tile.v0.0.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
 <script>
 var tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
-    .text('Hello, world!')
 var pi = Math.PI,
     tau = 2 * pi;
 var width = Math.max(960, window.innerWidth),
@@ -48,7 +61,7 @@ var projection = d3.geoMercator()
 // Define the tooltip for hover-over info windows
 var div = d3.select("body").append("div")   
   	.attr("class", "tooltip")               
-  	.style("opacity", 0);
+  	.style("opacity", 10);
 var path = d3.geoPath()
     .projection(projection)
   	.pointRadius(3);
@@ -63,9 +76,21 @@ var svg = d3.select("svg")
 var raster = svg.append("g");
 var bstations = svg.append("g");
 var trl = svg.append("g");
-var ppp = svg.append("circle")
+var LM = svg.append("circle")
     .attr("r",5)
-    .style("fill","yellow")
+    .style("fill","yellow");
+var JM = svg.append("circle")
+    .attr("r",5)
+    .style("fill","yellow");
+var MarineM = svg.append("circle")
+    .attr("r",5)
+    .style("fill","yellow");
+var WM = svg.append("circle")
+    .attr("r",5)
+    .style("fill","yellow");
+var ZOO = svg.append("circle")
+    .attr("r",5)
+    .style("fill","yellow");
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 var layer1 = svg.append("g");
 var layer2 = svg.append("g");
@@ -99,7 +124,7 @@ function ready(error, trails, stations) {
     .enter().append("path")
       .attr("class", "trail")
       .style("fill", 'none')
-  		.style("stroke", 'BLUE')
+  		.style("stroke", '#006400')
   		      .on("mouseover", function(d) {
           div.transition()
             .duration(200)
@@ -118,7 +143,7 @@ function ready(error, trails, stations) {
       .data(stations.features)
     .enter().append("path")
       .attr("class", "station")
-      .style("fill", 'crimson')
+      .style("fill", '#B22222')
   		.style("stroke", 'none')
   		      .on("mouseover", function(d) {
           div.transition()
@@ -160,17 +185,55 @@ function zoomed() {
       .attr("d", path);
   bstations
       .attr("d", path);
-  ppp
+  LM
       .attr('cx', projection([-77.05018389318994, 38.88929091200698])[0])
       .attr('cy', projection([-77.05018389318994, 38.88929091200698])[1])
   		.style("stroke", 'none')
   		      .on("mouseover", function(d) {
           div.transition()
             .duration(2000)
-            .style("opacity", 2) 
-          div.html("<span style='color:red'><h1>Linaolm Memorial</h1><br><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg/1200px-Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg'></ahref></span> <span style='color:blue'></span>")          
-            .style("left", (d3.event.pageX - 34) + "px")
-      			.style("top", (d3.event.pageY - 12) + "px");
+            .style("opacity", 1)        	
+          div.html("<span style='color:blue'><h1>Lincoln Memorial</h1><br><img src='http://theenchantedmanor.com/wp-content/uploads/2015/02/Lincoln-Memorial-1.jpg'></span> <span style='color:blue'></span>")          
+        })
+   JM
+      .attr('cx', projection([-77.03654320042097, 38.881325713574476])[0])
+      .attr('cy', projection([-77.03654320042097, 38.881325713574476])[1])
+  		.style("stroke", 'none')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(2000)
+            .style("opacity", 1)        	
+          div.html("<span style='color:blue'><h1>Jefferson Memorial</h1><br><img src='https://washington-org.s3.amazonaws.com/s3fs-public/jefferson-at-night_credit-carol-m.-highsmith-lib-of-congress.jpg'></span> <span style='color:blue'></span>")          
+        })
+	MarineM
+  		.attr('cx', projection([-77.04725090111135, 38.87628230575873])[0])
+      .attr('cy', projection([-77.04725090111135, 38.87628230575873])[1])
+  		.style("stroke", 'none')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(2000)
+            .style("opacity", 1)        	
+          div.html("<span style='color:blue'><h1>Navy – Merchant Marine Memorial</h1><br><img src='https://images.fineartamerica.com/images-medium-large-5/1-navy-merchant-marine-memorial-david-hyun.jpg'></span> <span style='color:blue'></span>")          
+        })
+  WM
+  		.attr('cx', projection([-77.03522783044863, 38.88946969709221])[0])
+      .attr('cy', projection([-77.03522783044863, 38.88946969709221])[1])
+  		.style("stroke", 'none')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(2000)
+            .style("opacity", 1)        	
+          div.html("<span style='color:blue'><h1>Washington Monument</h1><br><img src='http://wtop.com/wp-content/uploads/2015/08/540809551.jpg'></span> <span style='color:blue'></span>")          
+        })
+  ZOO
+  		.attr('cx', projection([-77.049870, 38.929825])[0])
+      .attr('cy', projection([-77.049870, 38.929825])[1])
+  		.style("stroke", 'none')
+  		      .on("mouseover", function(d) {
+          div.transition()
+            .duration(2000)
+            .style("opacity", 1)        	
+          div.html("<span style='color:blue'><h1>Smithsonian National Zoological Park</h1><br><img src='http://www.etraveltrips.com/wp-content/uploads/2012/05/National-Zoo-Pandas.jpg'></span> <span style='color:blue'></span>")          
         })
   var image = raster
       .attr("transform", stringify(tiles.scale, tiles.translate))
