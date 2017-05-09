@@ -48,11 +48,25 @@
 				"ADDRESS": "2 15TH ST NW",
 				"NAME": "WASHINGTON MONUMENT",
 				"ADDRID": "294406",
-			  	"IMAGE": "http://wtop.com/wp-content/uploads/2015/08/540809551.jpg"
+				"IMAGE": "http://wtop.com/wp-content/uploads/2015/08/540809551.jpg"
 			},
 			"geometry": {
 				"type": "Point",
 				"coordinates": [-77.03522783044863, 38.88946969709221]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"OBJECTID": 206,
+				"ADDRESS": "3001 Connecticut Ave NW",
+				"NAME": "Smithsonian National Zoological Park",
+				"ADDRID": "308009",
+			  	"IMAGE":"http://www.etraveltrips.com/wp-content/uploads/2012/05/National-Zoo-Pandas.jpg"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.04966049294393, 38.93252028064751]
 			}
 		}
 	]
