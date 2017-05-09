@@ -33,12 +33,26 @@
 				"OBJECTID": 40,
 				"ADDRESS": "GEORGE WASHINGTON MEMORIAL PARKWAY",
 				"NAME": "NAVY – MERCHANT MARINE MEMORIAL",
-				"ADDRID": "294415", 
-			  	"IMAGE": "https://images.fineartamerica.com/images-medium-large-5/1-navy-merchant-marine-memorial-david-hyun.jpg"
+				"ADDRID": "294415",
+				"IMAGE": "https://images.fineartamerica.com/images-medium-large-5/1-navy-merchant-marine-memorial-david-hyun.jpg"
 			},
 			"geometry": {
 				"type": "Point",
 				"coordinates": [-77.04725090111135, 38.87628230575873]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"OBJECTID": 42,
+				"ADDRESS": "2 15TH ST NW",
+				"NAME": "WASHINGTON MONUMENT",
+				"ADDRID": "294406",
+			  	"IMAGE": "http://wtop.com/wp-content/uploads/2015/08/540809551.jpg"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [-77.03522783044863, 38.88946969709221]
 			}
 		}
 	]
