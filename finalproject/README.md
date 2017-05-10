@@ -20,8 +20,7 @@ This project is well underway.
 
 #### Documentation
 
-Add the following content to the README.md in your repo.
-   1.The purpose of this project is to create zoomable and interactive map of Washington D.C. that shows the location of bike stations, bike trails, and interesting places in D.C.  I used the OpenStreetMap tiles as a basemap for a better orientation in a city. Interactivity of the application allows us to hover over points to see an additional information and pictures.   
+Add the following content to the README.md in your repo.   
 
 1. Goals 
    <br>
@@ -39,7 +38,7 @@ Add the following content to the README.md in your repo.
          <br>       
          https://github.com/benbalter/dc-maps/blob/master/maps/bike-trails.geojson
       - memorials-in-dc.geojson -GitHub 
-         <br> 
+         <br>
          https://github.com/benbalter/dc-maps/blob/master/maps/memorials-in-dc.geojson
 3. Extremely brief description of all pre-processing, if any (0% complete)
 
