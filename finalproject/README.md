@@ -1,8 +1,8 @@
 ## Bicycling in DC
 
-This project presents location of bike stations, bike trails and tourist attractions along the bike trails in Washington D.C. The map is zoomable and interactive.
+This project presents location of bike stations, bike trails and tourist attractions along the bike trails in Washington D.C. The map is a zoomable and an interactive.
 
-### Data
+### Project links
 
 Project repository: https://github.com/AnaMal08/classes/tree/master/finalproject
 
