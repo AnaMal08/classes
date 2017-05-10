@@ -13,7 +13,8 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
-  body {
+
+body {
   margin: 0;
 }
 path {
@@ -50,6 +51,8 @@ img {
 <script>
 var tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
+		.attr("width", 170)
+    .attr("height", 105)
 var pi = Math.PI,
     tau = 2 * pi;
 var width = Math.max(960, window.innerWidth),
@@ -102,12 +105,23 @@ var layer2 = svg.append("g");
 var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
 var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
 var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/poinfOfIntrest.json";
+x = 750;
+y =50;
+var rect = svg.append("rect")
+    .attr("x", x+10)
+    .attr("y", y)
+    .attr("width", 170)
+    .attr("height", 105)
+    .style("fill", "white")
+    .style("fill-opacity", "1")
+    .style("stroke", "none")
+    .style("stroke-width", "1.5px");
 var legend = d3.select("svg").append("svg")
-  .attr("x", 750)
-  .attr("y", 50);
+  .attr("x", x)
+  .attr("y", y);
 var legend2 = d3.select("svg").append("svg")
-  .attr("x", 757)
-  .attr("y", 115)
+  .attr("x", x+7)
+  .attr("y", y+65)
 
   
 legend.append("g")
@@ -129,6 +143,25 @@ var legendOrdinal2 = d3.legendColor()
   .scale(ordinal2)
 svg.select(".legendOrdinal2")
   .call(legendOrdinal2); 
+  // Title
+	var text = 	svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', "1.5em")
+    .style('font-size', '1.5em')
+    .style('text-anchor', 'middle')
+    .text('DISCOVERING D.C. BY BIKE')
+  	.style("fill", "black")
+var bbox = text.node().getBBox();
+var rect = svg.append("rect")
+    .attr("x", bbox.x)
+    .attr("y", bbox.y)
+    .attr("width", bbox.width)
+    .attr("height", bbox.height)
+    .style("fill", "#ccc")
+    .style("fill-opacity", ".4")
+    .style("stroke", "#666")
+    .style("stroke-width", "1.5px");
+
   
 d3.queue()
     .defer(d3.json, trails)
@@ -229,7 +262,9 @@ function zoomed() {
   		.style("stroke", 'none')
   		      .on("mouseover", function(d) {
           div.transition()
-            .duration(2000)
+            .duration(100)
+          	.attr("width", 170)
+    				.attr("height", 105)
             .style("opacity", 1)        	
           div.html("<span style='color:blue'><h1>Navy – Merchant Marine Memorial</h1><br><img src='https://images.fineartamerica.com/images-medium-large-5/1-navy-merchant-marine-memorial-david-hyun.jpg'></span> <span style='color:blue'></span>")          
         })
@@ -264,24 +299,7 @@ function zoomed() {
       .attr("y", function(d) { return d[1] * 256; })
       .attr("width", 256)
       .attr("height", 256);
-  // Title
-	var text = 	svg.append('text')
-    .attr('x', width / 2)
-    .attr('y', "1.5em")
-    .style('font-size', '1.5em')
-    .style('text-anchor', 'middle')
-    .text('DISCOVERING D.C. BY BIKE')
-  	.style("fill", "black")
-var bbox = text.node().getBBox();
-var rect = svg.append("rect")
-    .attr("x", bbox.x)
-    .attr("y", bbox.y)
-    .attr("width", bbox.width)
-    .attr("height", bbox.height)
-    .style("fill", "#ccc")
-    .style("fill-opacity", ".3")
-    .style("stroke", "#666")
-    .style("stroke-width", "1.5px");
+
 }
 function stringify(scale, translate) {
   var k = scale / 256, r = scale % 1 ? Number : Math.round;
