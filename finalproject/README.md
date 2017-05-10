@@ -31,7 +31,7 @@ Add the following content to the README.md in your repo.
    * Data Sources 
       - Map Tiles - Open Street Maps 
          <br>
-         link: https://gist.github.com/mbostock/4132797
+         zoomable map tiles used as an example: https://gist.github.com/mbostock/4132797
 3. Extremely brief description of all pre-processing, if any (0% complete)
 
 #### Technical
