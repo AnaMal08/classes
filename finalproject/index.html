@@ -13,7 +13,6 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
-
   body {
   margin: 0;
 }
@@ -80,7 +79,6 @@ var trl = svg.append("g");
 var LM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
-
 var JM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
@@ -94,8 +92,11 @@ var ZOO = svg.append("circle")
     .style("fill","yellow");
     
 var ordinal = d3.scaleOrdinal()
-  .domain(["Bike stations", "tourist attractions", "2.0 - 3.0", "3.0 - 4.0"])
-  .range(["#B22222","yellow","#e5981d","red"])
+  .domain(["Bike Stations", "Tourist Attractions"])
+  .range(["#B22222","yellow"])
+var ordinal2 = d3.scaleOrdinal()
+  .domain(["Bike Trails"])
+  .range(["#006400"])
 var layer1 = svg.append("g");
 var layer2 = svg.append("g");
 var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
@@ -104,19 +105,31 @@ var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalpro
 var legend = d3.select("svg").append("svg")
   .attr("x", 750)
   .attr("y", 50);
+var legend2 = d3.select("svg").append("svg")
+  .attr("x", 757)
+  .attr("y", 115)
+
   
 legend.append("g")
   .attr("class", "legendOrdinal")
   .attr("transform", "translate(20,20)")
 var legendOrdinal = d3.legendColor()
-  .shape("path", d3.symbol().type(d3.symbolDiamond).size(150)())
+  .shape("path", d3.symbol().type(d3.symbolCircle).size(150)())
   .shapePadding(10)
     .title("Legend")
   .scale(ordinal)
 svg.select(".legendOrdinal")
   .call(legendOrdinal); 
+legend2.append("g")
+  .attr("class", "legendOrdinal2")
+  .attr("transform", "translate(20,20)")
+var legendOrdinal2 = d3.legendColor()
+  .shape("path", d3.symbol().type(d3.symbolSquare).size(150)())
+  .shapePadding(10)
+  .scale(ordinal2)
+svg.select(".legendOrdinal2")
+  .call(legendOrdinal2); 
   
-
 d3.queue()
     .defer(d3.json, trails)
     .defer(d3.json, stations)
@@ -183,7 +196,6 @@ function zoomed() {
       .scale(transform.k)
       .translate([transform.x, transform.y])
       ();
-
   projection
       .scale(transform.k / tau)
       .translate([transform.x, transform.y]);
@@ -231,7 +243,6 @@ function zoomed() {
             .style("opacity", 1)        	
           div.html("<span style='color:blue'><h1>Washington Monument</h1><br><img src='http://wtop.com/wp-content/uploads/2015/08/540809551.jpg'></span> <span style='color:blue'></span>")          
         })
-
   ZOO
   		.attr('cx', projection([-77.049870, 38.929825])[0])
       .attr('cy', projection([-77.049870, 38.929825])[1])
@@ -254,7 +265,6 @@ function zoomed() {
       .attr("width", 256)
       .attr("height", 256);
   // Title
-
 	var text = 	svg.append('text')
     .attr('x', width / 2)
     .attr('y', "1.5em")
@@ -263,7 +273,6 @@ function zoomed() {
     .text('DISCOVERING D.C. BY BIKE')
   	.style("fill", "black")
 var bbox = text.node().getBBox();
-
 var rect = svg.append("rect")
     .attr("x", bbox.x)
     .attr("y", bbox.y)
