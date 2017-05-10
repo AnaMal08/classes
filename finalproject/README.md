@@ -6,7 +6,7 @@ Show the location of Capital Bakeshare stations and bike trails in Washington DC
 
 Project repository: https://github.com/AnaMal08/classes/tree/master/finalproject
 
-Demo: http://bl.ocks.org/AnaMal08/c1266b871dc76a71972ddd3753d7db1e
+Demo: https://anamal08.github.io/classes/finalproject/index.html
 
 ## Instructional demo
 
