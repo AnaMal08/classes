@@ -1,6 +1,6 @@
 ## Bicycling in DC
 
-Show the location of Capital Bakeshare stations and bike trails in Washington DC
+This project presents location of bike stations, bike trails and tourist attractions along the bike trails in Washington D.C. This map is zoomable and interactive.  
 
 ### Data
 
