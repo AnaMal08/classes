@@ -29,8 +29,9 @@ Add the following content to the README.md in your repo.
     * How will this improve upon the existing map tool at opendata.dc.gov?
 2. Attribution
    * Data Sources 
-      - Zoomable Map Tiles - Open Street Maps 
-         https://gist.github.com/mbostock/4132797
+      - Map Tiles - Open Street Maps 
+         <br>
+         link: https://gist.github.com/mbostock/4132797
 3. Extremely brief description of all pre-processing, if any (0% complete)
 
 #### Technical
