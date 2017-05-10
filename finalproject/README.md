@@ -32,6 +32,15 @@ Add the following content to the README.md in your repo.
       - Map Tiles - Open Street Maps 
          <br>
          zoomable map tiles used as an example: https://gist.github.com/mbostock/4132797
+      - capital-bike-share-locations.geojson -GitHub 
+         <br>
+         https://github.com/benbalter/dc-maps/blob/master/maps/capital-bike-share-locations.geojson
+      - bike-trails.geojson -GitHub 
+         <br>       
+         https://github.com/benbalter/dc-maps/blob/master/maps/bike-trails.geojson
+      - memorials-in-dc.geojson -GitHub 
+         <br> 
+         https://github.com/benbalter/dc-maps/blob/master/maps/memorials-in-dc.geojson
 3. Extremely brief description of all pre-processing, if any (0% complete)
 
 #### Technical
