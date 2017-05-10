@@ -6,7 +6,7 @@ h1 {
     
   display: block;
     font-size: 1.5em;
-    text-align: LEFT;
+    text-align: CENTER;
     margin-top: 0.67em;
     margin-bottom: 0.67em;
     margin-left: 0;
@@ -38,8 +38,8 @@ path {
   padding: 8px;
 }
 img {
-    max-width: 50%;
-    max-height: 50%;
+    max-width: 100%;
+    max-height: 100%;
 }
 </style>
 <svg></svg>
@@ -112,7 +112,7 @@ var rect = svg.append("rect")
     .style("fill-opacity", "1")
     .style("stroke", "none")
     .style("stroke-width", "1.5px");
-var text = 	svg.append('text')
+var text = svg.append('text')
     .attr('x', width / 2)
     .attr('y', "1.5em")
     .style('font-size', '1.5em')
@@ -120,8 +120,8 @@ var text = 	svg.append('text')
     .text('DISCOVERING D.C. BY BIKE')
   	.style("fill", "black")
 // coordinates to move legend 
-x = width/.7;
-y = height/.7;
+x = 1050;
+y = 700;
 // rect under the legend 
 var rect = svg.append("rect")
     .attr("x", x+10)
@@ -143,10 +143,10 @@ var legend2 = d3.select("svg").append("svg")
 
 // Colors and description for a legend    
 var ordinal = d3.scaleOrdinal()
-  .domain(["Bike Stations", "Tourist Attractions"])
+  .domain(["Bike Station", "Tourist Attraction"])
   .range(["#B22222","yellow"])
 var ordinal2 = d3.scaleOrdinal()
-  .domain(["Bike Trails"])
+  .domain(["Bike Trail"])
   .range(["#006400"])
 // add legend
 legend.append("g")
