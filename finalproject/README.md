@@ -21,7 +21,7 @@ This project is well underway.
 #### Documentation
 
 Add the following content to the README.md in your repo.
-
+   1. The purpose of this project is to create zoomable and interactive map of Washington D.C.
 1. 1 or 2 sentences describing overall project goals, e.g., interactive tool?, hypothesis test? (50%)
     * How will this improve upon the existing map tool at opendata.dc.gov?
 2. Attribution and links to all data sources (50% complete)
