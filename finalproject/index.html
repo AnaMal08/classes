@@ -13,12 +13,12 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
+
   body {
   margin: 0;
 }
 path {
   fill: none;
-  stroke: #006400;
   stroke-linejoin: round;
   stroke-width: 3px;
 }
@@ -47,6 +47,7 @@ img {
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/d3-tile.v0.0.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.21.0/d3-legend.js"></script>
 <script>
 var tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
@@ -64,7 +65,7 @@ var div = d3.select("body").append("div")
   	.style("opacity", 10);
 var path = d3.geoPath()
     .projection(projection)
-  	.pointRadius(3);
+  	.pointRadius(4);
 var tile = d3.tile()
     .size([width, height]);
 var zoom = d3.zoom()
@@ -79,11 +80,11 @@ var trl = svg.append("g");
 var LM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
+
 var JM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
 var MarineM = svg.append("circle")
-    .attr("r",5)
     .style("fill","yellow");
 var WM = svg.append("circle")
     .attr("r",5)
@@ -91,27 +92,31 @@ var WM = svg.append("circle")
 var ZOO = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
-var color = d3.scaleOrdinal(d3.schemeCategory10);
+    
+var ordinal = d3.scaleOrdinal()
+  .domain(["Bike stations", "tourist attractions", "2.0 - 3.0", "3.0 - 4.0"])
+  .range(["#B22222","yellow","#e5981d","red"])
 var layer1 = svg.append("g");
 var layer2 = svg.append("g");
 var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
 var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
 var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/poinfOfIntrest.json";
-var legend = layer2.selectAll('.legend')
-    .data(d3.range(10))
-  .enter().append('g')
-    .attr('class', 'legend')
-    .attr('transform', 'translate(' + [width - 150, height / 3] +')');
-legend.append('circle')
-    .attr('cy', function(d) { return 4 * d * path.pointRadius() ; })
-    .attr('r', path.pointRadius())
-    .attr('fill', color)
-    .attr('stroke', '#aaaaaa')
-legend.append('text')
-    .attr('x', '1em')
-    .attr('y', function(d) { return 4 * d * path.pointRadius(); })
-    .attr('dy', '.3em')
-    .text(function(d) { return d + ' - ' + (d + 1); })
+var legend = d3.select("svg").append("svg")
+  .attr("x", 750)
+  .attr("y", 50);
+  
+legend.append("g")
+  .attr("class", "legendOrdinal")
+  .attr("transform", "translate(20,20)")
+var legendOrdinal = d3.legendColor()
+  .shape("path", d3.symbol().type(d3.symbolDiamond).size(150)())
+  .shapePadding(10)
+    .title("Legend")
+  .scale(ordinal)
+svg.select(".legendOrdinal")
+  .call(legendOrdinal); 
+  
+
 d3.queue()
     .defer(d3.json, trails)
     .defer(d3.json, stations)
@@ -178,6 +183,7 @@ function zoomed() {
       .scale(transform.k)
       .translate([transform.x, transform.y])
       ();
+
   projection
       .scale(transform.k / tau)
       .translate([transform.x, transform.y]);
@@ -225,6 +231,7 @@ function zoomed() {
             .style("opacity", 1)        	
           div.html("<span style='color:blue'><h1>Washington Monument</h1><br><img src='http://wtop.com/wp-content/uploads/2015/08/540809551.jpg'></span> <span style='color:blue'></span>")          
         })
+
   ZOO
   		.attr('cx', projection([-77.049870, 38.929825])[0])
       .attr('cy', projection([-77.049870, 38.929825])[1])
@@ -246,6 +253,26 @@ function zoomed() {
       .attr("y", function(d) { return d[1] * 256; })
       .attr("width", 256)
       .attr("height", 256);
+  // Title
+
+	var text = 	svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', "1.5em")
+    .style('font-size', '1.5em')
+    .style('text-anchor', 'middle')
+    .text('DISCOVERING D.C. BY BIKE')
+  	.style("fill", "black")
+var bbox = text.node().getBBox();
+
+var rect = svg.append("rect")
+    .attr("x", bbox.x)
+    .attr("y", bbox.y)
+    .attr("width", bbox.width)
+    .attr("height", bbox.height)
+    .style("fill", "#ccc")
+    .style("fill-opacity", ".3")
+    .style("stroke", "#666")
+    .style("stroke-width", "1.5px");
 }
 function stringify(scale, translate) {
   var k = scale / 256, r = scale % 1 ? Number : Math.round;
