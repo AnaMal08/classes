@@ -13,7 +13,6 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
-
 body {
   margin: 0;
 }
@@ -140,7 +139,6 @@ var legend2 = d3.select("svg").append("svg")
   .attr("x", x+7)
   .attr("y", y+65)
 	.style("font-size","15px");
-
 // Colors and description for a legend    
 var ordinal = d3.scaleOrdinal()
   .domain(["Bike Station", "Tourist Attraction"])
@@ -310,7 +308,6 @@ function zoomed() {
       .attr("y", function(d) { return d[1] * 256; })
       .attr("width", 256)
       .attr("height", 256);
-
 }
 function stringify(scale, translate) {
   var k = scale / 256, r = scale % 1 ? Number : Math.round;
