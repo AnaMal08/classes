@@ -5,7 +5,7 @@
 h1 { 
     
   display: block;
-    font-size: 1em;
+    font-size: 1.5em;
     text-align: LEFT;
     margin-top: 0.67em;
     margin-bottom: 0.67em;
@@ -13,7 +13,6 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
-
 body {
   margin: 0;
 }
@@ -57,7 +56,7 @@ var pi = Math.PI,
     tau = 2 * pi;
 var width = Math.max(960, window.innerWidth),
     height = Math.max(500, window.innerHeight);
-// Initialize the projection to fit the world in a 1×1 square centered at the origin.
+// Initialize the projection, only Mercator available with basemap 
 var projection = d3.geoMercator()
     .scale(1 / tau)
     .translate([0, 0]);
@@ -65,6 +64,7 @@ var projection = d3.geoMercator()
 var div = d3.select("body").append("div")   
   	.attr("class", "tooltip")               
   	.style("opacity", 10);
+// path and points radius 
 var path = d3.geoPath()
     .projection(projection)
   	.pointRadius(4);
@@ -77,53 +77,76 @@ var svg = d3.select("svg")
     .attr("width", width)
     .attr("height", height);
 var raster = svg.append("g");
+//bike staions 
 var bstations = svg.append("g");
+// trails
 var trl = svg.append("g");
+// Lincoln Memorial 
 var LM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
+// Jefferson Memorial
 var JM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
+// Navy – Merchant Marine Memorial
 var MarineM = svg.append("circle")
     .style("fill","yellow");
+// Washington Monument 
 var WM = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
+// ZOO
 var ZOO = svg.append("circle")
     .attr("r",5)
     .style("fill","yellow");
-    
+// Title
+// rect under the title	
+var rect = svg.append("rect")
+    .attr("x", width / 4)
+    .attr("y", ".8em")
+    .attr("width", width / 2)
+    .attr("height", "2em")
+    .style("fill", "#a3a3a3")
+    .style("fill-opacity", "1")
+    .style("stroke", "none")
+    .style("stroke-width", "1.5px");
+var text = 	svg.append('text')
+    .attr('x', width / 2)
+    .attr('y', "1.5em")
+    .style('font-size', '1.5em')
+    .style('text-anchor', 'middle')
+    .text('DISCOVERING D.C. BY BIKE')
+  	.style("fill", "black")
+// coordinates to move legend 
+x = 753;
+y =305;
+// rect under the legend 
+var rect = svg.append("rect")
+    .attr("x", x+10)
+    .attr("y", y)
+    .attr("width", 170)
+    .attr("height", 105)
+    .style("fill", "#b5b5b5")
+    .style("fill-opacity", "1")
+    .style("stroke", "none")
+    .style("stroke-width", "1.5px");
+var legend = d3.select("svg").append("svg")
+  .attr("x", x)
+  .attr("y", y)
+	.style("font-size","15px");
+var legend2 = d3.select("svg").append("svg")
+  .attr("x", x+7)
+  .attr("y", y+65)
+	.style("font-size","15px");
+// Colors and description for a legend    
 var ordinal = d3.scaleOrdinal()
   .domain(["Bike Stations", "Tourist Attractions"])
   .range(["#B22222","yellow"])
 var ordinal2 = d3.scaleOrdinal()
   .domain(["Bike Trails"])
   .range(["#006400"])
-var layer1 = svg.append("g");
-var layer2 = svg.append("g");
-var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
-var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
-var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/poinfOfIntrest.json";
-x = 750;
-y =50;
-var rect = svg.append("rect")
-    .attr("x", x+10)
-    .attr("y", y)
-    .attr("width", 170)
-    .attr("height", 105)
-    .style("fill", "white")
-    .style("fill-opacity", "1")
-    .style("stroke", "none")
-    .style("stroke-width", "1.5px");
-var legend = d3.select("svg").append("svg")
-  .attr("x", x)
-  .attr("y", y);
-var legend2 = d3.select("svg").append("svg")
-  .attr("x", x+7)
-  .attr("y", y+65)
-
-  
+// add legend
 legend.append("g")
   .attr("class", "legendOrdinal")
   .attr("transform", "translate(20,20)")
@@ -143,26 +166,11 @@ var legendOrdinal2 = d3.legendColor()
   .scale(ordinal2)
 svg.select(".legendOrdinal2")
   .call(legendOrdinal2); 
-  // Title
-	var text = 	svg.append('text')
-    .attr('x', width / 2)
-    .attr('y', "1.5em")
-    .style('font-size', '1.5em')
-    .style('text-anchor', 'middle')
-    .text('DISCOVERING D.C. BY BIKE')
-  	.style("fill", "black")
-var bbox = text.node().getBBox();
-var rect = svg.append("rect")
-    .attr("x", bbox.x)
-    .attr("y", bbox.y)
-    .attr("width", bbox.width)
-    .attr("height", bbox.height)
-    .style("fill", "#ccc")
-    .style("fill-opacity", ".4")
-    .style("stroke", "#666")
-    .style("stroke-width", "1.5px");
-
-  
+// add geojsons 
+var layer1 = svg.append("g");
+var trails = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/trails.json";
+var stations = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/sharebike2.json";
+var places = "https://raw.githubusercontent.com/AnaMal08/classes/master/finalproject/poinfOfIntrest.json";  
 d3.queue()
     .defer(d3.json, trails)
     .defer(d3.json, stations)
@@ -209,12 +217,11 @@ function ready(error, trails, stations) {
             .duration(500)
             .style("opacity", 0);
         });
-  // add points of intrest 
  
-  // Compute the projected initial center for DC
-  var center = projection([-77.04, 38.91]);
-  // Apply a zoom transform equivalent to projection.{scale,translate,center}.
-  svg
+// Compute the projected initial center for DC
+var center = projection([-77.04, 38.91]);
+// Apply a zoom transform equivalent to projection.{scale,translate,center}.
+svg
       .on('mousemove', mousemoved)
       .on('mouseout', function() { d3.select('.info').style('visibility', 'hidden') })
       .call(zoom)
@@ -236,6 +243,7 @@ function zoomed() {
       .attr("d", path);
   bstations
       .attr("d", path);
+  // add points of intrest 
   LM
       .attr('cx', projection([-77.05018389318994, 38.88929091200698])[0])
       .attr('cy', projection([-77.05018389318994, 38.88929091200698])[1])
@@ -288,6 +296,7 @@ function zoomed() {
             .style("opacity", 1)        	
           div.html("<span style='color:blue'><h1>Smithsonian National Zoological Park</h1><br><img src='http://www.etraveltrips.com/wp-content/uploads/2012/05/National-Zoo-Pandas.jpg'></span> <span style='color:blue'></span>")          
         })
+ // add raster  
   var image = raster
       .attr("transform", stringify(tiles.scale, tiles.translate))
     .selectAll("image")
@@ -299,7 +308,6 @@ function zoomed() {
       .attr("y", function(d) { return d[1] * 256; })
       .attr("width", 256)
       .attr("height", 256);
-
 }
 function stringify(scale, translate) {
   var k = scale / 256, r = scale % 1 ? Number : Math.round;
