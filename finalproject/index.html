@@ -13,6 +13,7 @@ h1 {
     margin-right: 0;
     font-weight: bold;
 }
+
 body {
   margin: 0;
 }
@@ -119,8 +120,8 @@ var text = 	svg.append('text')
     .text('DISCOVERING D.C. BY BIKE')
   	.style("fill", "black")
 // coordinates to move legend 
-x = 753;
-y =305;
+x = width/.7;
+y = height/.7;
 // rect under the legend 
 var rect = svg.append("rect")
     .attr("x", x+10)
@@ -139,6 +140,7 @@ var legend2 = d3.select("svg").append("svg")
   .attr("x", x+7)
   .attr("y", y+65)
 	.style("font-size","15px");
+
 // Colors and description for a legend    
 var ordinal = d3.scaleOrdinal()
   .domain(["Bike Stations", "Tourist Attractions"])
@@ -308,6 +310,7 @@ function zoomed() {
       .attr("y", function(d) { return d[1] * 256; })
       .attr("width", 256)
       .attr("height", 256);
+
 }
 function stringify(scale, translate) {
   var k = scale / 256, r = scale % 1 ? Number : Math.round;
