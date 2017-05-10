@@ -21,10 +21,14 @@ This project is well underway.
 #### Documentation
 
 Add the following content to the README.md in your repo.
+   1.The purpose of this project is to create zoomable and interactive map of Washington D.C. that shows the location of bike stations, bike trails, and interesting places in D.C.  I used the OpenStreetMap tiles as a basemap for a better orientation in a city. Interactivity of the application allows us to hover over points to see an additional information and pictures.   
 
 1. 1 or 2 sentences describing overall project goals, e.g., interactive tool?, hypothesis test? (50%)
     * How will this improve upon the existing map tool at opendata.dc.gov?
-2. Attribution and links to all data sources (50% complete)
+2. Attribution
+   * Data Sources 
+      - Zoomable Map Tiles - Open Street Maps 
+         https://gist.github.com/mbostock/4132797
 3. Extremely brief description of all pre-processing, if any (0% complete)
 
 #### Technical
