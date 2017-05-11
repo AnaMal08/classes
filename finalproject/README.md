@@ -24,7 +24,7 @@ This demo shows how to read the GeoJSON constructed from the shapefiles in the p
    * Data Sources 
       - Map Tiles - Open Street Maps 
          <br>
-         zoomable map tiles used as an example: https://gist.github.com/mbostock/4132797
+         zoomable map tiles from: https://gist.github.com/mbostock/4132797
       - capital-bike-share-locations.geojson -GitHub 
          <br>
          https://github.com/benbalter/dc-maps/blob/master/maps/capital-bike-share-locations.geojson
