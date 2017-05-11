@@ -50,8 +50,9 @@ http://bl.ocks.org/AnaMal08/f30a78ef19db722c5142c124a1ae7ee1
 
 For each step, create a separate gist/block -- link to these in your repo's README.md
 
-1. Plot of data (provide link to the block) -- DONE (see above)
+1. Plot of data (provide link to the block)
 https://gist.github.com/AnaMal08/58ec731cac7f682e6d738fb980a30170
-2. Add basemap (slippy map TBD) -- DONE (see above)
+2. Add basemap
 https://gist.github.com/AnaMal08/91c9d4b944ce1f990aeacb54ae3f8cc5
-3. Add interactive capability (TBD)
+3. Add interactive capability
+http://bl.ocks.org/AnaMal08/f30a78ef19db722c5142c124a1ae7ee1
