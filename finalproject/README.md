@@ -14,13 +14,7 @@ This demo shows how to read the GeoJSON constructed from the shapefiles in the p
 
 * https://umbcvis.github.io/projects/anamal08/
 
-## To Do
-
-This project is well underway.
-
 #### Documentation
-
-Add the following content to the README.md in your repo.   
 
 1. Goals 
    <br>
@@ -34,13 +28,11 @@ Add the following content to the README.md in your repo.
       - capital-bike-share-locations.geojson -GitHub 
          <br>
          https://github.com/benbalter/dc-maps/blob/master/maps/capital-bike-share-locations.geojson
-      - bike-trails.geojson -GitHub 
-         <br>       
+      - bike-trails.geojson -GitHub     
          https://github.com/benbalter/dc-maps/blob/master/maps/bike-trails.geojson
       - memorials-in-dc.geojson -GitHub 
          <br>
          https://github.com/benbalter/dc-maps/blob/master/maps/memorials-in-dc.geojson
-3. Extremely brief description of all pre-processing, if any (0% complete)
 
 #### Technical
 
