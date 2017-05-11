@@ -49,5 +49,6 @@ This demo shows how to read the GeoJSON constructed from the shapefiles in the p
 For each step, create a separate gist/block -- link to these in your repo's README.md
 
 1. Plot of data (provide link to the block) -- DONE (see above)
+https://gist.github.com/AnaMal08/58ec731cac7f682e6d738fb980a30170
 2. Add basemap (slippy map TBD) -- DONE (see above)
 3. Add interactive capability (TBD)
