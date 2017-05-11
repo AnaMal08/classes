@@ -44,6 +44,8 @@ This demo shows how to read the GeoJSON constructed from the shapefiles in the p
       http://wtop.com/wp-content/uploads/2015/08/540809551.jpg
       - Smithsonian National Zoological Park
       http://www.etraveltrips.com/wp-content/uploads/2012/05/National-Zoo-Pandas.jpg
+## Gist links 
+http://bl.ocks.org/AnaMal08/f30a78ef19db722c5142c124a1ae7ee1
 #### Technical
 
 For each step, create a separate gist/block -- link to these in your repo's README.md
