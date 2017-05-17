@@ -1,53 +1,165 @@
 <!DOCTYPE html>
-<meta charset'utf-8'>
-<title>US Counties</title>
-<svg width="960" height="600" stroke="#000" stroke-linejoin="round" stroke-linecap="round">
-  <defs>
-    <filter id="blur">
-      <feGaussianBlur stdDeviation="5"></feGaussianBlur>
-    </filter>
-  </defs>
-</svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://unpkg.com/topojson-client@3"></script>
+<meta charset="utf-8">
+<title>Class 10</title>
+<style>
+body {
+  margin: 0;
+}
+path {
+  fill: none;
+  stroke: red;
+  stroke-linejoin: round;
+  stroke-width: 1.5px;
+}
+.info {
+  color: #000;
+  position: absolute;
+  background-color: rgba(200, 200, 200, .7);
+  visibility: hidden;
+  padding: 0.5em;
+  bottom: 100px;
+  right: 100px;
+}
+/* This style is used when dragging the dot */
+.active {
+  stroke: #000;
+  stroke-width: 2px;
+}
+</style>
+<svg></svg>
+<div class='info'></div>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script src="//d3js.org/d3-tile.v0.0.min.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
 <script>
-// This demo modified from https://bl.ocks.org/mbostock/4108203
-var svg = d3.select("svg");
-var defs = svg.select("defs");
-var projection = d3.geoAlbersUsa();
+// 1. NEW: Define an array with Washington DC longitude & latitude
+var dc = [-77.0369, 38.9072];
+// 2. NEW: Add an HTML <div> element that will function as the tooltip
+var tooltip = d3.select('body').append('div')
+    .attr('class', 'tooltip')
+    .text('Hello, world!')
+
+var pi = Math.PI,
+    tau = 2 * pi;
+var width = Math.max(960, window.innerWidth),
+    height = Math.max(500, window.innerHeight);
+// Initialize the projection to fit the world in a 1×1 square centered at the origin.
+var projection = d3.geoMercator()
+    .scale(1 / tau)
+    .translate([0, 0]);
 var path = d3.geoPath()
     .projection(projection);
-// Wait for the data to arrive, then begin processing
-d3.json("counties.json", function(error, us) {
+var tile = d3.tile()
+    .size([width, height]);
+var zoom = d3.zoom()
+    .scaleExtent([1 << 11, 1 << 18])
+    .on("zoom", zoomed);
+var svg = d3.select("svg")
+    .attr("width", width)
+    .attr("height", height);
+var raster = svg.append("g");
+var vector = svg.append("path");
+var data; // This is a global variable
+var counties = "https://raw.githubusercontent.com/AnaMal08/classes/master/Class14/counties.json";
+var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+d3.queue()
+    .defer(d3.json, counties)
+    .await(ready);
+function ready(error, counties) {
   if (error) throw error;
-  // Convert the topojson to an array of GeoJSON counties
-  var counties = topojson.feature(us, us.objects.counties).features;
-  // Plot the boundary of the US
-  svg.append("path")
-      .attr("id", "nation")
-      .attr("d", path(topojson.merge(us, us.objects.counties.geometries)))
-      .attr("stroke-width", 2)
-  // Drop-shadow styling (this is blurred nation)
-  svg.append("use")
-      .attr("xlink:href", "#nation")
-      .attr("fill-opacity", 0.2)
-      .attr("filter", "url(#blur)");
-  // Drop-shadow styling (this is white overlay)
-  svg.append("use")
-      .attr("xlink:href", "#nation")
-      .attr("fill", "#fff");
-  // Plot the state boundaries
-  svg.append("path")
-      .attr("stroke-width", 1)
-      .attr("fill", "none")
-      .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return a.properties.STATEFP !== b.properties.STATEFP; })));
-  // Plot fill the individual counties
-  svg.selectAll('path.county')
-      .data( counties )
-    .enter().append("path")
+  data = counties;
+  console.log("this is data", data)
+  vector
+      .datum(topojson.mesh(counties, counties.objects.counties));
+
+  // Compute the projected initial center.
+  var center = projection([-98.5, 39.5]);
+  // Apply a zoom transform equivalent to projection.{scale,translate,center}.
+  svg
+      .on('mousemove', mousemoved)
+      .on('mouseout', function() { d3.select('.info').style('visibility', 'hidden') })
+      .call(zoom)
+      .call(zoom.transform, d3.zoomIdentity
+          .translate(width / 2, height / 2)
+          .scale(1 << 12)
+          .translate(-center[0], -center[1]));
+  var layer1 = svg.append("g");
+  var layer2 = svg.append("g");
+     // 3. NEW: Add a draggable circle to the map
+  // See: https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e)
+  layer2.append("circle")
+      .attr("class", "dc")
+      .attr("cx", projection(dc)[0])
+      .attr("cy", projection(dc)[1])
+      .attr("r", 10)
+      .style("fill", "yellow")  // Make the dot yellow
+      .call(d3.drag()           // Add the drag behavior
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+  // NEW: The following 3 functions define what happens during drag events
+// See https://bl.ocks.org/mbostock/22994cc97fefaeede0d861e6815a847e for a simpler d3-drag demo
+function dragstarted(d) {
+  // Highlight the circle that's being dragged
+  d3.select(this).classed("active", true);
+  // Make the tooltip visible during drag events
+  tooltip.style("visibility", "visible");
+}
+function dragged(d) {
+  // Reposition the circle to follow the mouse during drag
+  d3.select(this).attr("cx", d3.event.x).attr("cy", d3.event.y);
+  // Reposition the tooltip too
+  tooltip.style("left", (d3.event.x - 10) + "px").style("top", (d3.event.y - 10) + "px");
+  // Add the name of the state to the tooltip
+  layer1.selectAll('path')
+      .filter(function(d) { return d3.geoContains(d, projection.invert([d3.event.x, d3.event.y])) })
+      .each(function(d) { tooltip.html(d.properties.name); })
+}
+function dragended(d) {
+  // Eliminate the highlight when dragging ends
+  d3.select(this).classed("active", false);
+  // Hide the tooltip
+  tooltip.style("visibility", "hidden");
+}
+}
+function zoomed() {
+  var transform = d3.event.transform;
+  var tiles = tile
+      .scale(transform.k)
+      .translate([transform.x, transform.y])
+      ();
+  projection
+      .scale(transform.k / tau)
+      .translate([transform.x, transform.y]);
+  vector
+      .attr("d", path);
+  quakes
       .attr("d", path)
-      .attr("fill", "none")
-      .attr("stroke", "#aaa")
-      .attr("stroke-width", 0.5);
-});
+  var image = raster
+      .attr("transform", stringify(tiles.scale, tiles.translate))
+    .selectAll("image")
+    .data(tiles, function(d) { return d; });
+  image.exit().remove();
+  image.enter().append("image")
+      .attr("xlink:href", function(d) { return "http://" + "abc"[d[1] % 3] + ".tile.openstreetmap.org/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+      .attr("x", function(d) { return d[0] * 256; })
+      .attr("y", function(d) { return d[1] * 256; })
+      .attr("width", 256)
+      .attr("height", 256);
+
+}
+function stringify(scale, translate) {
+  var k = scale / 256, r = scale % 1 ? Number : Math.round;
+  return "translate(" + r(translate[0] * scale) + "," + r(translate[1] * scale) + ") scale(" + k + ")";
+}
+function mousemoved() {
+  d3.select('.info')
+      .style('visibility', 'visible')
+      .text(formatLocation(projection.invert(d3.mouse(this)), projection.scale()));
+}
+function formatLocation(p, k) {
+  var format = d3.format("." + Math.floor(Math.log(k) / 2 - 2) + "f");
+  return (p[1] < 0 ? format(-p[1]) + "°S" : format(p[1]) + "°N") + " "
+       + (p[0] < 0 ? format(-p[0]) + "°W" : format(p[0]) + "°E");
+}
 </script>
